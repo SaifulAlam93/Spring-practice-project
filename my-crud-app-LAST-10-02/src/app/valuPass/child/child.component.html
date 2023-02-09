@@ -1,0 +1,11 @@
+<div style="margin-left: 30px; margin-top: 10px;" *ngFor="let p of childPosts">
+<p>{{p}}</p>
+</div>
+<p>Child Component {{sharedMessage}}</p>
+
+<button style="margin-left: 30px; margin-top: 10px;" class="btn btn-primary btn-sm" (click)="passEvent()">Pass an event in parrent component</button>
+
+
+<button style="margin-left: 30px; margin-top: 10px;" class="btn btn-primary btn-sm" (click)="newMessage()">Change Share component value</button>
+<br>
+ 

@@ -1,0 +1,70 @@
+<div class="form-group" style="margin-left: 30px; margin-top: 10px;">
+
+
+    <div class="custom-control custom-radio">
+        <input id="male" type="radio" class="custom-control-input" value="male" name="gender" [(ngModel)]="gender">
+        <label class="custom-control-label" for="male">Male</label>
+     </div>
+     <div class="custom-control custom-radio">
+        <input id="female" type="radio" class="custom-control-input" value="female" name="gender"  [(ngModel)]="gender">
+        <label class="custom-control-label" for="female">Female</label>
+     </div>
+     <!-- --------------------- -->
+
+     <div class="form-check form-check-inline">
+        <input
+          mdbCheckbox
+          class="form-check-input"
+          type="checkbox"
+          id="inlineCheckbox1"
+          value="option1"
+          [(ngModel)]="unCheckedCheckBox"
+        />
+        <label class="form-check-label" for="inlineCheckbox1">1</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          mdbCheckbox
+          class="form-check-input"
+          type="checkbox"
+          id="inlineCheckbox2"
+          value="option2"
+          [checked]="true"
+          [(ngModel)]="checkedCheckBox"
+
+        />
+        <label class="form-check-label" for="inlineCheckbox2">2</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          mdbCheckbox
+          class="form-check-input"
+          type="checkbox"
+          id="inlineCheckbox3"
+          value="option3"
+          [disabled]="disable"
+          [(ngModel)]="disableedCheckedCheckBox"
+        />
+        <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
+      </div>
+
+      <!-- // -->
+<div>Readio Button value: {{gender}}</div>
+<div>checked Check box value: {{checkedCheckBox}}</div>
+<div>Unchecked Check box value: {{unCheckedCheckBox}}</div>
+<div>Disable Check box value: {{disableedCheckedCheckBox}}</div>
+
+<input type="text" class="form-control" name="post" [(ngModel)]="post"/>
+</div>
+<div>
+    <button style="margin-left: 30px; margin-top: 10px;" class="btn btn-sm btn-warning" type="submit" (click)="addPost(post)">Add Post</button>
+</div>
+<button style="margin-left: 30px; margin-top: 10px;" class="btn btn-primary btn-sm" (click)="newMessage()">Change Share component value</button>
+<p>{{maessage}}</p>
+<p>Parent Component {{sharedMessage}}</p>
+<br>
+<br>
+<br>
+<br>
+
+<app-child [childPosts]="parentPost" (passedEvent)="childEvent($event)"></app-child>

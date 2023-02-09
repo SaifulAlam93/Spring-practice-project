@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: home-project
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+

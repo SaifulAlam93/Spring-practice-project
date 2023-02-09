@@ -1,0 +1,5 @@
+<app-add-task (onAddTask)="addTask($event)"></app-add-task>
+<app-task-item (onDeleteTask)="deleteTask(task)" 
+(onToggleReminder)="togolReminder(task)"
+*ngFor="let task of tasks" [task]="task">{{task.day}}</app-task-item>
+  
