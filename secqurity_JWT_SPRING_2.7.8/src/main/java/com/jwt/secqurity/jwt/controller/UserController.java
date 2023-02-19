@@ -1,11 +1,15 @@
 package com.jwt.secqurity.jwt.controller;
 
 
+import com.jwt.secqurity.jwt.dto.MessageResponse;
 import com.jwt.secqurity.jwt.dto.SignupRequest;
 import com.jwt.secqurity.jwt.entity.User;
+import com.jwt.secqurity.jwt.repository.RoleDao;
+import com.jwt.secqurity.jwt.repository.UserDao;
 import com.jwt.secqurity.jwt.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +22,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
+
     @PostConstruct
     public void initRoleAndUser() {
         userService.initRoleAndUser();
     }
 
     @PostMapping({"/signup"})
-    public User registerNewUserNew(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<?> registerNewUserNew(@RequestBody SignupRequest signupRequest) {
         User user = new User();
         user.setUserName(signupRequest.getUsername());
         user.setEmail(signupRequest.getEmail());
@@ -36,17 +46,17 @@ public class UserController {
 
 
 
-//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new MessageResponse("Error: Username is already taken!"));
-//        }
+        if (userDao.existsByUserName(signupRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
 //
-//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new MessageResponse("Error: Email is already in use!"));
-//        }
+        if (userDao.existsByEmail(signupRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
 //
 //        // Create new user's account
 //        User user = new User(signUpRequest.getUsername(),
@@ -89,9 +99,15 @@ public class UserController {
 //        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 //    }
 
+        userService.registerNewUser(user);
 
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 
-        return userService.registerNewUser(user);
+    }
+
+    @GetMapping({"/getUser"})
+    public Iterable<User> getAll() {
+        return userService.getAll();
     }
 
 
@@ -99,6 +115,13 @@ public class UserController {
     public User registerNewUser(@RequestBody User user) {
         return userService.registerNewUser(user);
     }
+
+
+    @PutMapping({"/updateUser"})
+    public User updateUserRole(@RequestBody User user) {
+        return userService.updateUser(user);
+    }
+
 
     @GetMapping({"/forAdmin"})
     @PreAuthorize("hasRole('Admin')")

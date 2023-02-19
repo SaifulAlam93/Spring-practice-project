@@ -5,12 +5,12 @@ import com.jwt.secqurity.jwt.entity.Role;
 import com.jwt.secqurity.jwt.entity.User;
 import com.jwt.secqurity.jwt.repository.RoleDao;
 import com.jwt.secqurity.jwt.repository.UserDao;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -73,7 +73,8 @@ public class UserService {
     }
 
     public User registerNewUser(User user) {
-        Role role = roleDao.findById("ROLE_ADMIN").get();
+
+        Role role = roleDao.findById("User").get();
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(role);
         user.setRole(userRoles);
@@ -82,7 +83,29 @@ public class UserService {
         return userDao.save(user);
     }
 
+    public User updateUser(User user) {
+        Optional<User> optionalUser  = userDao.findById(user.getUsername());
+
+        if (optionalUser.isPresent()){
+            Set<Role> userRoles = new HashSet<>();
+            userRoles.addAll(optionalUser.get().getRole());
+            userRoles.addAll(user.getRole());
+            optionalUser.get().setRole(userRoles);
+            return userDao.save( optionalUser.get());
+
+        }
+        return null;
+    }
+
+
+    public Iterable<User> getAll() {
+
+
+        return userDao.findAll();
+    }
     public String getEncodedPassword(String password) {
         return passwordEncoder.encode(password);
     }
+
+
 }

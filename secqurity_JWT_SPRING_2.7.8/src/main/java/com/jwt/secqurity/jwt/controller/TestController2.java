@@ -13,7 +13,7 @@ public class TestController2 {
 
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content.";
+        return "Public Content. Test Content 2 ";
     }
 
 
@@ -21,18 +21,18 @@ public class TestController2 {
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String userAccess() {
-        return "User Content.";
+        return "User Content. Test Content 2 " ;
     }
 
     @GetMapping("/mod")
 //    @PreAuthorize("hasRole('MODERATOR')")
     public String moderatorAccess() {
-        return "Moderator Board.";
+        return "Moderator Board. Test Content 2 ";
     }
 
     @GetMapping("/admin")
 //    @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return "Admin Board. Test Content 2 ";
     }
 }
